@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/api/search', function(req, res, next) {
-  aws.search(req).then(function(result){ res.render('results', {hits: result.hits.hit, total: result.hits.found, facets: result.facets}); }).catch(function(error){ res.json(error); });
+  aws.search(req).then(function(result){ res.render('results', {hits: result.hits.hit, total: result.hits.found, facets: result.facets, currentUrl: req._parsedOriginalUrl._raw}); }).catch(function(error){ res.json(error); });
 });
 
 router.get('/api/suggest', function(req, res, next) {

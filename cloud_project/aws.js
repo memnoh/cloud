@@ -46,15 +46,15 @@ module.exports = function(){
   		params.queryParser = 'simple';
   		var def = promise.defer();
 
-  		if(typeof req.query.q === "undefined"){
+  		if(typeof req.query.q === "undefined" || req.query.q==""){
   			params.queryParser = 'structured';
   			params.query = '(matchall)';
   		}
   		else{
   			params.query = req.query.q;
   		}
-  		if(typeof req.query.filter !== "undefined"){
-  			req.query.filter = [].concat(req.query.filter);
+  		if(typeof req.query.filter !== "undefined" && req.query.filter!=""){
+  			req.query.filter = [].concat(req.query.filter).filter(function(item){return item!="";});
   			var filters = req.query.filter.map(function(obj){
   				var filterField = obj.split(':')[0];
   				var filterValue = obj.split(':')[1];

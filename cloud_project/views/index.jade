@@ -2,9 +2,8 @@ extends layout
 
 block content
   form#searchForm(method="GET", action="/api/search")
-    div.ui-widget
-      label(for="q") Query
-      input#q(type="text", name="q")
+    label(for="q") Query
+    input#q(type="text", name="q").ui-widget
     label(for="filter") Filter
     input#filter(type="text", name="filter")
     button#search(type="submit") Search
@@ -12,13 +11,16 @@ block content
   span -----------------------------------------------------------------
   p GENRES
   for facet in facets.genres.buckets
-    p #{facet.value}: #{facet.count}
+    p
+      a(href="/api/search?filter=genres:#{facet.value}") #{facet.value}: #{facet.count}
   span -----------------------------------------------------------------
   p RATING
   for facet in facets.rating.buckets
-    p #{facet.value}: #{facet.count}
+    p 
+      a(href="/api/search?filter=rating:#{facet.value}") #{facet.value}: #{facet.count}
   span -----------------------------------------------------------------
   p YEAR
   for facet in facets.year.buckets
-    p #{facet.value}: #{facet.count}
+    p
+      a(href="/api/search?filter=year:#{facet.value}") #{facet.value}: #{facet.count}
   span -----------------------------------------------------------------
