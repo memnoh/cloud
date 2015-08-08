@@ -1,15 +1,16 @@
 extends layout
 
 block content
-  form#searchForm(method="GET", action="/api/search")
-    div.ui-widget
-      label(for="q") Query
-      input#q(type="text", name="q")
-    label(for="filter") Filter
-    input#filter(type="text", name="filter")
-    button#search(type="submit") Search
   p total results: #{total}
   span -----------------------------------------------------------------
+  for hit in hits
+    p title: !{hit.highlights.title}
+    p genres: #{hit.fields.genres}
+    p release: #{hit.fields.release_date}
+    p actors: #{hit.fields.actors}
+    p directors: #{hit.fields.directors}
+    p plot: !{hit.highlights.plot}
+    span -----------------------------------------------------------------
   p GENRES
   for facet in facets.genres.buckets
     p #{facet.value}: #{facet.count}
