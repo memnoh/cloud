@@ -3,11 +3,13 @@ module.exports = function(){
 	var async = require('async');
 	var aws = require('aws-sdk');
 	var searchDomain = null;
+	var documentDomain= null;
 	var promise = require('bluebird');
 
 	function setup(){
 		aws.config.update(conf.aws.credentials);
 		searchDomain = new aws.CloudSearchDomain({endpoint: conf.aws.cloudsearch.searchEndpoint});
+		documentDomain = new aws.CloudSearchDomain({endpoint: conf.aws.cloudsearch.searchEndpoint});
 	}
 
 	function suggest(query){
@@ -75,9 +77,48 @@ module.exports = function(){
  		 return def.promise;
 	}
 
-	return {
+	function upload(req){
+
+
+json=[{ "type": "add",
+  "id":   "tt0484565558",
+  "fields": {"title": "alex",
+    "directors": ["Cunningham, David L."],
+    "genres": ["Adventure","Drama","Thriller"],
+    "actors": ["McShane, Ian","Eccleston, Christopher",
+              "Crewson, Wendy","Ludwig, Alexander","Cosmo, James",
+              "Warner, Amelia","Hickey, John Benjamin","Piddock, Jim",
+              "Lockhart, Emma"],
+    "image_url": "",
+    "plot": "",
+    "rank": "1",
+    "rating": "7.0",
+    "release_date": "2010-09-09T00:00:00Z",
+    "running_time_secs": "90",
+    "year": "2010"
+  }}];
+
+
+var def = promise.defer();
+		var params = {
+  			contentType: "application/json", 
+  			documents: JSON.stringify(json)
+		};
+
+
+		documentDomain.uploadDocuments(params, function(err, data) {
+		    if(err) {
+		      def.reject(err);
+		    } else {
+		      def.resolve(data);
+		    }
+ 		 });
+ 		return def.promise;
+}
+		return {
 		setup: setup,
 		suggest: suggest,
-		search: search
-	}
-}
+		search: search,
+		upload: upload
+	
+}}
