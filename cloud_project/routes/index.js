@@ -17,9 +17,13 @@ router.get('/api/search', function(req, res, next) {
 router.get('/api/suggest', function(req, res, next) {
   aws.suggest(req.query.q).then(function(result){ res.json(result.suggest.suggestions); }).catch(function(error){ res.json(error); });
 });
-
+/*
 router.get('/upload', function(req, res, next) {
   aws.upload(req);
 });
-
+*/
+router.post('/addMovie', function(req, res, next) {
+	console.log("addMovie");
+  aws.addMovie(req);
+});
 module.exports = router;

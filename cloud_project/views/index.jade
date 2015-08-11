@@ -7,6 +7,10 @@ block content
     label(for="filter") Filter
     input#filter(type="text", name="filter")
     button#search(type="submit") Search
+  form#uploadForm(method="POST", action="/addMovie", enctype="multipart/form-data", target="_blank")
+    input(type="submit", value="upload movie", name="submit")
+    input#file(type="file", accept="*",name="file")
+  br
   p total results: #{total}
   span -----------------------------------------------------------------
   p GENRES
