@@ -79,16 +79,12 @@ module.exports = function(){
 	}
 
 	function addMovie(req) {
-console.log("addMovie function");
 	var def = promise.defer();
   fs.readFile(req.file.path, function(err, data) {
-  //fs.readFile(req.file.file.path, function(err, data) {
-  //fs.readFile(req.files.file.path, function(err, data) {
     if (err){
 		   def.reject(err);
     } 
     else{
-          console.log("upload");
 
 
 var def = promise.defer();
@@ -105,10 +101,7 @@ var def = promise.defer();
           def.resolve(data);
         }
      });
-         console.log('data '+data);
-        //console.log('movie '+movie);
         def.resolve(data);
-        //console.log(movie);
     }
 });
   console.log('done');
@@ -116,16 +109,11 @@ var def = promise.defer();
 }
 
 	/*function upload(req){
-console.log("upload function");
-console.log(movie);
-
-
 var def = promise.defer();
 		var params = {
   			contentType: "application/json", 
   			documents: JSON.stringify(movie)
 		};
-
 
 		documentDomain.uploadDocuments(params, function(err, data) {
 		    if(err) {
@@ -134,7 +122,6 @@ var def = promise.defer();
 		      def.resolve(data);
 		    }
  		 });
-		//console.log(movie);
  		return def.promise;
 }*/
 		return {
