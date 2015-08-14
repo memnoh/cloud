@@ -1,30 +1,16 @@
 extends layout
 
-block content
-  form#searchForm(method="GET", action="/api/search")
-    label(for="q") Query
-    input#q(type="text", name="q").ui-widget
-    label(for="filter") Filter
-    input#filter(type="text", name="filter")
-    button#search(type="submit") Search
-  form#uploadForm(method="POST", action="/addMovie", enctype="multipart/form-data", target="_blank")
-    input(type="submit", value="upload movie", name="submit")
-    input#file(type="file", accept="*",name="file")
+block beforeFacets
+  div
+    form#searchForm(method="GET", action="/api/search")
+      label(for="q") Query
+      input#q(type="text", name="q").ui-widget
+      label(for="filter") Filter
+      input#filter(type="text", name="filter")
+      button#search(type="submit") Search
   br
-  p total results: #{total}
-  span -----------------------------------------------------------------
-  p GENRES
-  for facet in facets.genres.buckets
-    p
-      a(href="/api/search?filter=genres:#{facet.value}") #{facet.value}: #{facet.count}
-  span -----------------------------------------------------------------
-  p RATING
-  for facet in facets.rating.buckets
-    p 
-      a(href="/api/search?filter=rating:#{facet.value}") #{facet.value}: #{facet.count}
-  span -----------------------------------------------------------------
-  p YEAR
-  for facet in facets.year.buckets
-    p
-      a(href="/api/search?filter=year:#{facet.value}") #{facet.value}: #{facet.count}
-  span -----------------------------------------------------------------
+  div
+    form#uploadForm(method="POST", action="/api/upload", enctype="multipart/form-data")
+      input(type="submit", value="Upload", name="submit")
+      input#file(type="file", accept="*", name="file")
+    br

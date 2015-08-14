@@ -8,4 +8,25 @@ html
     script(type='text/javascript', src="http://code.jquery.com/ui/1.11.4/jquery-ui.js")
     script(type='text/javascript', src="/javascripts/index.js")
   body
-    block content
+    p
+      a(href="/") Home
+    p 
+      total results: #{total}
+    span -----------------------------------------------
+    block beforeFacets
+    span -----------------------------------------------
+    p GENRES
+      for facet in facets.genres.buckets
+        p
+          a(href="#{urlPrefix}filter=genres:#{facet.value}") #{facet.value}: #{facet.count}
+    p RATING
+      for facet in facets.rating.buckets
+        p 
+          a(href="#{urlPrefix}filter=rating:#{facet.value}") #{facet.value}: #{facet.count}
+    p YEAR
+      for facet in facets.year.buckets
+        p
+          a(href="#{urlPrefix}filter=year:#{facet.value}") #{facet.value}: #{facet.count}
+    span -----------------------------------------------
+    block afterFacets
+    span -----------------------------------------------

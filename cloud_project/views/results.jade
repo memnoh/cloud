@@ -1,8 +1,6 @@
 extends layout
 
-block content
-  p total results: #{total}
-  span -----------------------------------------------------------------
+block afterFacets
   for hit in hits
     p title: !{hit.highlights.title}
     p genres: #{hit.fields.genres}
@@ -12,18 +10,6 @@ block content
     p plot: !{hit.highlights.plot}
     p rating: #{hit.fields.rating}
     span -----------------------------------------------------------------
-  p GENRES
-  for facet in facets.genres.buckets
+  unless nextPageStart > total
     p
-      a(href="#{currentUrl}&filter=genres:#{facet.value}") #{facet.value}: #{facet.count}
-  span -----------------------------------------------------------------
-  p RATING
-  for facet in facets.rating.buckets
-    p
-      a(href="#{currentUrl}&filter=rating:#{facet.value}") #{facet.value}: #{facet.count}
-  span -----------------------------------------------------------------
-  p YEAR
-  for facet in facets.year.buckets
-    p
-      a(href="#{currentUrl}&filter=year:#{facet.value}") #{facet.value}: #{facet.count}
-  span -----------------------------------------------------------------
+      a(href="#{urlPrefix}start=#{nextPageStart}") Next Page

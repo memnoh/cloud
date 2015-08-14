@@ -2,7 +2,6 @@ module.exports = function(){
 	var conf = require('./conf');
 	var async = require('async');
 	var aws = require('aws-sdk');
-  var fs = require('fs');
 	var searchDomain = null;
 	var documentDomain= null;
 	var promise = require('bluebird');
@@ -10,7 +9,7 @@ module.exports = function(){
 	function setup(){
 		aws.config.update(conf.aws.credentials);
 		searchDomain = new aws.CloudSearchDomain({endpoint: conf.aws.cloudsearch.searchEndpoint});
-		documentDomain = new aws.CloudSearchDomain({endpoint: conf.aws.cloudsearch.searchEndpoint});
+		documentDomain = new aws.CloudSearchDomain({endpoint: conf.aws.cloudsearch.documentEndpoint});
 	}
 
 	function suggest(query){
@@ -67,7 +66,7 @@ module.exports = function(){
   			params.filterQuery = filterString; 
   		}
 
-  		console.log(params);
+  	console.log(params);
 		searchDomain.search(params, function(err, data) {
 		    if(err) {
 		      def.reject(err);
@@ -78,55 +77,25 @@ module.exports = function(){
  		 return def.promise;
 	}
 
-	function addMovie(req) {
-	var def = promise.defer();
-  fs.readFile(req.file.path, function(err, data) {
-    if (err){
-		   def.reject(err);
-    } 
-    else{
-
-
-var def = promise.defer();
+	function upload(fileBatch) {
+  	var def = promise.defer();
     var params = {
         contentType: "application/json", 
-        documents: JSON.stringify(data)
+        documents: fileBatch
     };
-
-
     documentDomain.uploadDocuments(params, function(err, data) {
-        if(err) {
-          def.reject(err);
-        } else {
-          def.resolve(data);
-        }
-     });
+      if(err) {
+        def.reject(err);
+      } else {
         def.resolve(data);
-    }
-});
-  console.log('done');
-  return def.promise;
-}
+      }
+    });
+    return def.promise;
+  }
 
-	/*function upload(req){
-var def = promise.defer();
-		var params = {
-  			contentType: "application/json", 
-  			documents: JSON.stringify(movie)
-		};
-
-		documentDomain.uploadDocuments(params, function(err, data) {
-		    if(err) {
-		      def.reject(err);
-		    } else {
-		      def.resolve(data);
-		    }
- 		 });
- 		return def.promise;
-}*/
 		return {
 		setup: setup,
 		suggest: suggest,
 		search: search,
-    addMovie: addMovie
+    upload: upload
 }}
