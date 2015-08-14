@@ -15,18 +15,19 @@ html
     span -----------------------------------------------
     block beforeFacets
     span -----------------------------------------------
+    - var stripStart = urlPrefix.replace(/&start=\d+/g, "");
     p GENRES
       for facet in facets.genres.buckets
         p
-          a(href="#{urlPrefix}filter=genres:#{facet.value}") #{facet.value}: #{facet.count}
+          a(href="#{stripStart}filter=genres:#{facet.value}") #{facet.value}: #{facet.count}
     p RATING
       for facet in facets.rating.buckets
         p 
-          a(href="#{urlPrefix}filter=rating:#{facet.value}") #{facet.value}: #{facet.count}
+          a(href="#{stripStart}filter=rating:#{facet.value}") #{facet.value}: #{facet.count}
     p YEAR
       for facet in facets.year.buckets
         p
-          a(href="#{urlPrefix}filter=year:#{facet.value}") #{facet.value}: #{facet.count}
+          a(href="#{stripStart}filter=year:#{facet.value}") #{facet.value}: #{facet.count}
     span -----------------------------------------------
     block afterFacets
     span -----------------------------------------------

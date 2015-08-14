@@ -10,6 +10,10 @@ block afterFacets
     p plot: !{hit.highlights.plot}
     p rating: #{hit.fields.rating}
     span -----------------------------------------------------------------
+  - var stripStart = urlPrefix.replace(/&start=\d+/g, "");
+  unless previousPageStart < 0
+    p
+      a(href="#{stripStart}start=#{previousPageStart}") Previous Page
   unless nextPageStart > total
     p
-      a(href="#{urlPrefix}start=#{nextPageStart}") Next Page
+      a(href="#{stripStart}start=#{nextPageStart}") Next Page
